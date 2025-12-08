@@ -70,8 +70,9 @@ jobs:
       # Set up kubeconfig from secret
       - name: Set up kubeconfig
         run: |
-          echo "${{ secrets.KUBECONFIG_CONTENT }}" > $HOME/.kube/config
-          kubectl config use-context docker-desktop  # Set context to docker-desktop
+          mkdir -Force $HOME\.kube
+          echo "${{ secrets.KUBECONFIG_CONTENT }}" | Out-File -Encoding UTF8 $HOME\.kube\config
+          kubectl config use-context docker-desktop
           kubectl config set-context --current --namespace=ensakh
 
       # Verify Kubernetes context
